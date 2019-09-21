@@ -31,17 +31,27 @@ describe('HeroesComponent (deep)', () => {
         });
         fixture = TestBed.createComponent(HeroesComponent);
         mockHeroService.getHeroes.and.returnValue(of(HEROES));
+        // run ngOnInit()
+        fixture.detectChanges();
     })
 
     it('should render each hero as a HeroComponent', () => {
-        // run ngOnInit()
-        fixture.detectChanges();
-
         const heroComponentDEs = fixture.debugElement.queryAll(By.directive(HeroComponent));
         expect(heroComponentDEs.length).toBe(3);
 
         for(let i=0; i<heroComponentDEs.length; i++) {
             expect(heroComponentDEs[i].componentInstance.hero).toEqual(HEROES[i])
         }
+    })
+
+    it(`should call heroService.deleteHero when the HeroComponent's
+        delete button is clicked`, () => {
+        spyOn(fixture.componentInstance, 'delete');
+
+        const heroComponentDEs = fixture.debugElement.queryAll(By.directive(HeroComponent));
+        heroComponentDEs[0].query(By.css('button'))
+            .triggerEventHandler('click', {stopPropagation: ()=>{}})
+
+        expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0])
     })
 })
