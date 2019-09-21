@@ -51,7 +51,8 @@ describe('HeroesComponent (deep)', () => {
         const heroComponentDEs = fixture.debugElement.queryAll(By.directive(HeroComponent));
         // heroComponentDEs[0].query(By.css('button'))
         //     .triggerEventHandler('click', {stopPropagation: ()=>{}})
-        (<HeroComponent>heroComponentDEs[0].componentInstance).delete.emit()
+        // (<HeroComponent>heroComponentDEs[0].componentInstance).delete.emit()
+        heroComponentDEs[0].triggerEventHandler('delete', null)
 
         expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0])
     })
