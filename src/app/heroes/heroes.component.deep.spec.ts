@@ -49,8 +49,9 @@ describe('HeroesComponent (deep)', () => {
         spyOn(fixture.componentInstance, 'delete');
 
         const heroComponentDEs = fixture.debugElement.queryAll(By.directive(HeroComponent));
-        heroComponentDEs[0].query(By.css('button'))
-            .triggerEventHandler('click', {stopPropagation: ()=>{}})
+        // heroComponentDEs[0].query(By.css('button'))
+        //     .triggerEventHandler('click', {stopPropagation: ()=>{}})
+        (<HeroComponent>heroComponentDEs[0].componentInstance).delete.emit()
 
         expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0])
     })
